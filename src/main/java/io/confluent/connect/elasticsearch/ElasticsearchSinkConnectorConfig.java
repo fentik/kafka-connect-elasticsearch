@@ -266,10 +266,10 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
 
   public static final String ROUTING_FIELD_KEY_EXTRACT_CONFIG = "routing.field.key.extract";
   private static final String ROUTING_FIELD_KEY_EXTRACT_DOC =
-       "Whether to extract the routing field from a JSON key's _routing value. "
+       "Extract the routing field from a JSON key field with the specified name. "
        + "If configured, the field is mandatory and must always resolve to a non-blank String.";
   private static final String ROUTING_FIELD_KEY_EXTRACT_DISPLAY = "Routing field extract from key";
-  private static final boolean ROUTING_FIELD_KEY_EXTRACT_DEFAULT = false;
+  private static final String ROUTING_FIELD_KEY_EXTRACT_DEFAULT = "";
 
   // Proxy group
   public static final String PROXY_HOST_CONFIG = "proxy.host";
@@ -687,7 +687,7 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
             new EnumRecommender<>(WriteMethod.class)
         ).define(
             ROUTING_FIELD_KEY_EXTRACT_CONFIG,
-            Type.BOOLEAN,
+            Type.STRING,
             ROUTING_FIELD_KEY_EXTRACT_DEFAULT,
             Importance.LOW,
             ROUTING_FIELD_KEY_EXTRACT_DOC,
@@ -1028,8 +1028,8 @@ public class ElasticsearchSinkConnectorConfig extends AbstractConfig {
     return WriteMethod.valueOf(getString(WRITE_METHOD_CONFIG).toUpperCase());
   }
 
-  public boolean routingFieldKeyExtract() {
-    return getBoolean(ROUTING_FIELD_KEY_EXTRACT_CONFIG);
+  public String routingFieldKeyExtract() {
+    return getString(ROUTING_FIELD_KEY_EXTRACT_CONFIG);
   }
 
   private static class DataStreamDatasetValidator implements Validator {

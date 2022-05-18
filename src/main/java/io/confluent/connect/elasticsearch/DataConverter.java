@@ -203,8 +203,9 @@ public class DataConverter {
    */
   private String getRouting(SinkRecord record) {
     String routing = null;
-    if (config.routingFieldKeyExtract()) {
-      routing = getRoutingFieldFromKey(record.key());
+    String routingKeyName = config.routingFieldKeyExtract();
+    if (routingKeyName != null && !TextUtils.isBlank(routingKeyName)) {
+      routing = getRoutingFieldFromKey(record.key(), routingKeyName);
       if (routing == null || TextUtils.isBlank(routing)) {
         throw new DataException("invalid: value for routing field is null or blank");
       }
@@ -212,10 +213,10 @@ public class DataConverter {
     return routing;
   }
 
-  private static String getRoutingFieldFromKey(Object key) {
+  private static String getRoutingFieldFromKey(Object key, String routingKeyName) {
     SchemaAndValue val = JSON_CONVERTER.toConnectData(null, ((String)key).getBytes());
     HashMap map = (HashMap)val.value();
-    return (String)map.get("_routing");
+    return (String)map.get(routingKeyName);
   }
 
   /**
