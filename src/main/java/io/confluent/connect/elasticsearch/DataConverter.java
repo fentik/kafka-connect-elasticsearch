@@ -165,7 +165,7 @@ public class DataConverter {
 
     // delete
     if (record.value() == null) {
-      return maybeAddExternalVersioning(new DeleteRequest(index).id(id), record);
+      return maybeAddExternalVersioning(new DeleteRequest(index).id(id).routing(routing), record);
     }
 
     String payload = getPayload(record);
