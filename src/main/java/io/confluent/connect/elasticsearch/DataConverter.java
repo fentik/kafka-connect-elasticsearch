@@ -216,7 +216,7 @@ public class DataConverter {
   private static String getRoutingFieldFromKey(Object key, String routingKeyName) {
     SchemaAndValue val = JSON_CONVERTER.toConnectData(null, ((String)key).getBytes());
     HashMap map = (HashMap)val.value();
-    return (String)map.get(routingKeyName);
+    return (String)map.get(routingKeyName).toString();
   }
 
   /**
